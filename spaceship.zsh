@@ -90,6 +90,9 @@ SPACESHIP_PROMPT_SUFFIXES_SHOW="${SPACESHIP_PROMPT_SUFFIXES_SHOW=true}"
 SPACESHIP_PROMPT_DEFAULT_PREFIX="${SPACESHIP_PROMPT_DEFAULT_PREFIX="via "}"
 SPACESHIP_PROMPT_DEFAULT_SUFFIX="${SPACESHIP_PROMPT_DEFAULT_SUFFIX=" "}"
 
+# My patch to broken bold color
+SPACESHIP_PROMPT_USE_BOLD="false"
+
 # ------------------------------------------------------------------------------
 # LIBS
 # Spaceship utils/hooks/etc
