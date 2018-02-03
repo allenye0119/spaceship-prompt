@@ -21,9 +21,11 @@ spaceship::section() {
   spaceship_prompt_opened=true
   #echo -n "%{%b%}" # unset bold
 
+  #echo -n "%{%B$color%}" # set color
   echo -n "%{$color%}" # set color
   echo -n "$content"     # section content
   echo -n "%{%f%}"     # unset color
+  #echo -n "%{%b%f%}"     # unset color
 
   #echo -n "%{%B%}" # reset bold, if it was diabled before
   if [[ $SPACESHIP_PROMPT_SUFFIXES_SHOW == true ]]; then
