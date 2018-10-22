@@ -16,7 +16,7 @@ The default order is:
 
 ```zsh
 SPACESHIP_PROMPT_ORDER=(
-  time          # Time stampts section
+  time          # Time stamps section
   user          # Username section
   dir           # Current directory section
   host          # Hostname section
@@ -74,6 +74,8 @@ This group of options defines a behaviour of prompt and standard parameters for 
 | `SPACESHIP_CHAR_PREFIX` | ` ` | Prefix before prompt character |
 | `SPACESHIP_CHAR_SUFFIX` | ` ` | Suffix after prompt character |
 | `SPACESHIP_CHAR_SYMBOL` | `➜ ` | Prompt character to be shown before any command |
+| `SPACESHIP_CHAR_SYMBOL_ROOT` | `$SPACESHIP_CHAR_SYMBOL` | Prompt character to be shown before any command for the root user |
+| `SPACESHIP_CHAR_SYMBOL_SECONDARY` | `$SPACESHIP_CHAR_SYMBOL` | Secondary prompt character to be shown for incomplete commands |
 | `SPACESHIP_CHAR_COLOR_SUCCESS` | `green` | Color of prompt character if last command completes successfully |
 | `SPACESHIP_CHAR_COLOR_FAILURE` | `red` | Color of prompt character if last command returns non-zero exit-code |
 | `SPACESHIP_CHAR_COLOR_SECONDARY` | `yellow` | Color of secondary prompt character |
@@ -128,6 +130,7 @@ Hostname is shown only when you're connected via SSH unless you change this beha
 ### Directory (`dir`)
 
 Directory is always shown and truncated to the value of `SPACESHIP_DIR_TRUNC`. While you are in repository, it shows only root directory and folders inside it.
+If current directory is write-protected or if current user has not enough rights to write in it, a padlock (by default) is displayed as a suffix.
 
 | Variable | Default | Meaning |
 | :------- | :-----: | ------- |
@@ -135,8 +138,11 @@ Directory is always shown and truncated to the value of `SPACESHIP_DIR_TRUNC`. W
 | `SPACESHIP_DIR_PREFIX` | `in·` | Prefix before current directory |
 | `SPACESHIP_DIR_SUFFIX` | `$SPACESHIP_PROMPT_DEFAULT_SUFFIX` | Suffix after current directory |
 | `SPACESHIP_DIR_TRUNC` | `3` | Number of folders of cwd to show in prompt, 0 to show all |
+| `SPACESHIP_DIR_TRUNC_PREFIX` | ` ` | Prefix before cwd when it's truncated. For example `…/` or `.../`, empty to disable |
 | `SPACESHIP_DIR_TRUNC_REPO` | `true` | While in `git` repo, show only root directory and folders inside it |
 | `SPACESHIP_DIR_COLOR` | `cyan` | Color of directory section |
+| `SPACESHIP_DIR_LOCK_SYMBOL` | `·` | The symbol displayed if directory is write-protected |
+| `SPACESHIP_DIR_LOCK_COLOR` | `red` | Color for the lock symbol |
 
 ### Git (`git`)
 
@@ -177,7 +183,7 @@ Git status indicators is shown only when you have dirty repository.
 | `SPACESHIP_GIT_STATUS_UNMERGED` | `=` | Indicator for unmerged changes |
 | `SPACESHIP_GIT_STATUS_AHEAD` | `⇡` | Indicator for unpushed changes (ahead of remote branch) |
 | `SPACESHIP_GIT_STATUS_BEHIND` | `⇣` | Indicator for unpulled changes (behind of remote branch) |
-| `SPACESHIP_GIT_STATUS_DIVERGED` | `⇕` | Indicator for diverged chages (diverged with remote branch) |
+| `SPACESHIP_GIT_STATUS_DIVERGED` | `⇕` | Indicator for diverged changes (diverged with remote branch) |
 
 ### Mercurial (`hg`)
 
@@ -220,7 +226,7 @@ Mercurial status indicators is shown only when you have dirty repository.
 
 > Works only for [npm](https://www.npmjs.com/) at the moment. Please, help us improve this section!
 
-Package version is shown when repository is a package (e.g. contains a `package.json` file).
+Package version is shown when repository is a package (e.g. contains a `package.json` file). If no version information is found in `package.json`, the `⚠` symbol will be displayed.
 
 > **Note:** This is the version of the package you are working on, not the version of package manager itself.
 
@@ -258,6 +264,18 @@ Ruby section is shown only in directories that contain `Gemfile`, or `Rakefile`,
 | `SPACESHIP_RUBY_SUFFIX` | `$SPACESHIP_PROMPT_DEFAULT_SUFFIX` | Suffix after Ruby section |
 | `SPACESHIP_RUBY_SYMBOL` | `💎·` | Character to be shown before Ruby version |
 | `SPACESHIP_RUBY_COLOR` | `red` | Color of Ruby section |
+
+### Elm (`elm`)
+
+Elm section is shown only in directories that contain `elm.json` file, `elm-package.json` file, `elm-stuff` directory, or any other file with `.elm` extension.
+
+| Variable | Default | Meaning |
+| :------- | :-----: | ------- |
+| `SPACESHIP_ELM_SHOW` | `true` | Show installed Elm version |
+| `SPACESHIP_ELM_PREFIX` | `$SPACESHIP_PROMPT_DEFAULT_PREFIX` | Prefix before Elm section |
+| `SPACESHIP_ELM_SUFFIX` | `$SPACESHIP_PROMPT_DEFAULT_SUFFIX` | Suffix after Elm section |
+| `SPACESHIP_ELM_SYMBOL` | `🌳·` | Character to be shown before Elm version |
+| `SPACESHIP_ELM_COLOR` | `cyan` | Color of Elm section |
 
 ### Elixir (`elixir`)
 
@@ -312,7 +330,7 @@ Go section is shown only in directories that contain `Godeps`, `glide.yaml`, any
 
 ### PHP (`php`)
 
-PHP section is shown only in directories that contain any file with `.php` extension.
+PHP section is shown only in directories that contain `composer.json` file, or any other file with `.php` extension.
 
 | Variable | Default | Meaning |
 | :------- | :-----: | ------- |
@@ -369,10 +387,11 @@ Docker section is shown only in directories that contain `Dockerfile` or `docker
 | `SPACESHIP_DOCKER_SUFFIX` | `$SPACESHIP_PROMPT_DEFAULT_SUFFIX` | Suffix after the Docker section |
 | `SPACESHIP_DOCKER_SYMBOL` | `🐳·` | Character to be shown before Docker version |
 | `SPACESHIP_DOCKER_COLOR` | `cyan` | Color of Docker section |
+| `SPACESHIP_DOCKER_VERBOSE` | `false` | Show complete Docker version |
 
 ### Amazon Web Services (AWS) (`aws`)
 
-Shows selected Amazon Web Services profile using '[named profiles](http://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html)'.
+Shows selected Amazon Web Services profile configured using  [`AWS_PROFILE`](http://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html) variable.
 
 | Variable | Default | Meaning |
 | :------- | :-----: | ------- |
@@ -389,6 +408,8 @@ Shows selected Amazon Web Services profile using '[named profiles](http://docs.a
 | `SPACESHIP_VENV_SHOW` | `true` | Show current Python virtualenv or not |
 | `SPACESHIP_VENV_PREFIX` | `$SPACESHIP_PROMPT_DEFAULT_PREFIX` | Prefix before the virtualenv section |
 | `SPACESHIP_VENV_SUFFIX` | `$SPACESHIP_PROMPT_DEFAULT_SUFFIX` | Suffix after the virtualenv section |
+| `SPACESHIP_VENV_SYMBOL` | `·` | Character to be shown before virtualenv |
+| `SPACESHIP_VENV_GENERIC_NAMES` | `(virtualenv venv .venv)` | If the virtualenv folder is in this *array*, than use its parent directory as its name instead |
 | `SPACESHIP_VENV_COLOR` | `blue` | Color of virtualenv environment section |
 
 ### Conda virtualenv (`conda`)
@@ -519,6 +540,9 @@ This section show only when there are active jobs in the background.
 | `SPACESHIP_JOBS_SUFFIX` | ` ` | Suffix after the jobs indicator |
 | `SPACESHIP_JOBS_SYMBOL` | `✦` | Character to be shown when jobs are hiding |
 | `SPACESHIP_JOBS_COLOR` | `blue` | Color of background jobs section |
+| `SPACESHIP_JOBS_AMOUNT_PREFIX` | ` ` | Prefix before the number of jobs (between jobs indicator and jobs amount) |
+| `SPACESHIP_JOBS_AMOUNT_SUFFIX` | ` ` | Suffix after the number of jobs |
+| `SPACESHIP_JOBS_AMOUNT_THRESHOLD` | `1` | Number of jobs after which job count will be shown |
 
 ### Exit code (`exit_code`)
 

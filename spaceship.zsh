@@ -7,7 +7,7 @@
 
 # Current version of Spaceship
 # Useful for issue reporting
-export SPACESHIP_VERSION='3.1.0'
+export SPACESHIP_VERSION='3.7.0'
 
 # Common-used variable for new line separator
 NEWLINE='
@@ -49,6 +49,7 @@ if [ -z "$SPACESHIP_PROMPT_ORDER" ]; then
     package       # Package version
     node          # Node.js section
     ruby          # Ruby section
+    elm           # Elm section
     elixir        # Elixir section
     xcode         # Xcode section
     swift         # Swift section
@@ -168,7 +169,8 @@ spaceship_ps2() {
   # Retrieve exit code of last command to use in exit_code
   RETVAL=$?
 
-  spaceship::section "$SPACESHIP_CHAR_COLOR_SECONDARY" $SPACESHIP_CHAR_SYMBOL
+  local char="${SPACESHIP_CHAR_SYMBOL_SECONDARY="$SPACESHIP_CHAR_SYMBOL"}"
+  spaceship::section "$SPACESHIP_CHAR_COLOR_SECONDARY" "$char"
 }
 
 # ------------------------------------------------------------------------------
@@ -179,6 +181,7 @@ spaceship_ps2() {
 # Runs once when user opens a terminal
 # All preparation before drawing prompt should be done here
 prompt_spaceship_setup() {
+  autoload -Uz vcs_info
   autoload -Uz add-zsh-hook
 
   # This variable is a magic variable used when loading themes with zsh's prompt
@@ -195,6 +198,11 @@ prompt_spaceship_setup() {
 
   # Disable python virtualenv environment prompt prefix
   VIRTUAL_ENV_DISABLE_PROMPT=true
+
+  # Configure vcs_info helper for potential use in the future
+  add-zsh-hook precmd spaceship_exec_vcs_info_precmd_hook
+  zstyle ':vcs_info:*' enable git
+  zstyle ':vcs_info:git*' formats '%b'
 
   # Expose Spaceship to environment variables
   PROMPT='$(spaceship_prompt)'
